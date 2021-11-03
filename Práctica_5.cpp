@@ -31,7 +31,7 @@ int main ()
 
   do
     { 
-      //system("clear");
+      system("clear");
       cout<<"                      Menu\n"<<'\n'
             <<"\t1.- Vacia"<<'\n'
             <<"\t2.- Insertar elemento al inicio"<<'\n'
@@ -55,12 +55,15 @@ int main ()
 	case 0:
 	  cout << "Nos vemos pronto..." << '\n';
 	  break;
-
 	case 1:
-	  if (vacia (ancla))
+	  if (vacia (ancla)){
 	    cout << "Lista Vacia" << '\n';
-	  else
+      system("PAUSE");
+    }
+	  else{
 	    cout << "Lista No Vacia" << '\n';
+      system("PAUSE");
+    }
 	  break;
 	case 2:
 	  cout << "Dame el valor a insertar al inicio: ";
@@ -80,9 +83,11 @@ int main ()
     cout << "Dame la posición a eliminar: ";
 	  cin >> posicion;
     eliminar(ancla,posicion,elementos);
+    elementos--;
 	  break;
 	case 5:
 	  anula(ancla);
+    elementos = 0;
 	  break;
 	default:
 	  cout << "Opcion Incorrecta!!!" << '\n';
