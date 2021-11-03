@@ -47,7 +47,7 @@ int main ()
               imprimir(ancla);
             }
 
-            cout<<"\tSeleccione una opción ~ ";
+            cout<<"\tSeleccione una opcion ~ ";
       cin >> opcion;
 
       switch (opcion)
@@ -129,7 +129,7 @@ void insertar_p(struct Nodo *&l, TIPO_DATO d, int pos,int elementos){
     if (pos > elementos or pos < 0){
       cout << "¡Posición inválida!";
     }else{
-      for(int i = 0; i<pos-1; i++){
+      for(int i = 0; i<pos; i++){
         temp = temp->siguiente;
       }
     aux->dato = d;
@@ -138,7 +138,7 @@ void insertar_p(struct Nodo *&l, TIPO_DATO d, int pos,int elementos){
   }
 }
 
-void imprimir (struct Nodo *l)
+void imprimir(struct Nodo *l)
 {
   cout << "\tAncla-> ";
   while (l != nullptr)
@@ -163,27 +163,27 @@ void anula (struct Nodo *&l)
     }
 }
 
-void eliminar(struct Nodo *&l, int pos, int elementos){
+void eliminar(Nodo *&lista, int pos , int elementos) {
 
-    struct Nodo *temp = l;
-    struct Nodo *temp2 = nullptr;
+    if(lista and pos<elementos){
 
-    if(vacia(l)){
-      cout << "¡La Lista esta vacia!" << '\n';
-    }
-    else{
-        if (pos > elementos or pos < 0){
-          cout << "¡Posición inválida!";
+        Nodo *aux = lista;
+        
+        if(!pos){
+          lista = lista->siguiente;
         }else{
-          for(int i = 0; i<pos-1; i++){
-            temp = temp->siguiente;
-          }
-        cout << temp->siguiente << '\n';
-        cout << temp2->siguiente << '\n';
-        temp2->siguiente = temp->siguiente;
-        cout << temp2->siguiente << '\n';
+            Nodo *anterior;
+            for(int i = 0; i < pos-1; i++) {
+                aux = aux->siguiente;
+            }
+            anterior = aux;
+            aux = aux->siguiente;
+            anterior->siguiente = aux->siguiente;
         }
-    }
+        delete aux;
+    }else{
+      cout << "¡Posición Invalida!";
+    } 
 }
 
 Nodo *anterior(Nodo *lista, unsigned int pos){
