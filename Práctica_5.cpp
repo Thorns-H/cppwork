@@ -16,6 +16,9 @@ void insertar_i(struct Nodo *&l, TIPO_DATO d);
 void insertar_p(struct Nodo *&l, TIPO_DATO d, int posicion, int elementos);
 void eliminar(struct Nodo *&l,int pos, int elementos);
 void imprimir (struct Nodo *l);
+void localiza(struct Nodo *&l, TIPO_DATO d, int elementos);
+void primero(struct Nodo *&l);
+void ultimo(struct Nodo *&l,int elementos);
 Nodo *anterior(Nodo *lista, unsigned int pos);
 
 
@@ -32,12 +35,15 @@ int main ()
   do
     { 
       system("clear");
-      cout<<"                      Menu\n"<<'\n'
+      cout<<"\t\t--- Menú de Operaciones ---\n"<<'\n'
             <<"\t1.- Vacia"<<'\n'
-            <<"\t2.- Insertar elemento al inicio"<<'\n'
-            <<"\t3.- Insertar elemento por posicion"<<'\n'
+            <<"\t2.- Insertar elemento"<<'\n'
+            <<"\t3.- Insertar elemento por posición"<<'\n'
             <<"\t4.- Eliminar"<<'\n'
             <<"\t5.- Anular"<<'\n'
+            <<"\t6.- Localizar"<<'\n'
+            <<"\t7.- Primero"<<'\n'
+            <<"\t8.- Último"<<'\n'
             <<"\t0.- Salir"<<'\n';
 
             if(vacia (ancla)){
@@ -48,39 +54,44 @@ int main ()
             }
 
             cout<<"\tSeleccione una opcion ~ ";
-      cin >> opcion;
+            cin >> opcion;
 
       switch (opcion)
 	{
 	case 0:
-	  cout << "Nos vemos pronto..." << '\n';
+	  cout << "Saliendo..." << '\n';
 	  break;
 	case 1:
 	  if (vacia (ancla)){
-	    cout << "Lista Vacia" << '\n';
-      system("PAUSE");
+	    cout << "\n\t¡La Lista esta vacia!" << '\n';
+      system("read -p '' var");
     }
 	  else{
-	    cout << "Lista No Vacia" << '\n';
-      system("PAUSE");
+	    cout << "\n\t¡La Lista no esta vacia!" << '\n';
+      system("read -p '' var");
     }
 	  break;
 	case 2:
-	  cout << "Dame el valor a insertar al inicio: ";
+	  cout << "\n\tDigita algún valor: ";
 	  cin >> valor;
     elementos++;
 	  insertar_i (ancla, valor);
 	  break;
 	case 3:
-	  cout << "Dame el valor a insertar: ";
+	  cout << "\n\tDame el valor a insertar: ";
 	  cin >> valor;
-    cout << "Dame la posición: ";
+    cout << "\n\tDame la posición: ";
 	  cin >> posicion;
-    elementos++;
-	  insertar_p(ancla, valor, posicion, elementos);
+    if(posicion == 0){
+      elementos++;
+      insertar_i (ancla, valor);
+    }else{
+      elementos++;
+      insertar_p(ancla, valor, posicion, elementos);
+    }
 	  break;
 	case 4:
-    cout << "Dame la posición a eliminar: ";
+    cout << "\n\tDame la posición a eliminar: ";
 	  cin >> posicion;
     eliminar(ancla,posicion,elementos);
     elementos--;
@@ -89,8 +100,19 @@ int main ()
 	  anula(ancla);
     elementos = 0;
 	  break;
+  case 6:
+    cout << "\n\tDime el valor a localizar: ";
+	  cin >> valor;
+    localiza(ancla,valor,elementos);
+    break;
+  case 7:
+    primero(ancla);
+    break;
+  case 8:
+    ultimo(ancla,elementos);
+    break;
 	default:
-	  cout << "Opcion Incorrecta!!!" << '\n';
+	  cout << "\n\t¡No existe esa opción!" << '\n';
 	  break;
 	}
     }
@@ -109,6 +131,35 @@ bool vacia(struct Nodo *l)
   return l == nullptr;
 }
 
+void primero(struct Nodo *&l){
+  
+  struct Nodo *temp = l;
+
+  if(vacia(temp)){
+    cout << "\n\t¡La Lista esta vacia!" << '\n';
+    system("read -p '' var");
+  }else{
+    cout << "\n\t\t¡El Primer Nodo contiene el Dato : " << temp->dato << "!" <<'\n';
+    system("read -p '' var");
+  }
+}
+
+void ultimo(struct Nodo *&l,int elementos){
+  
+  struct Nodo *temp = l;
+
+  if(vacia(temp)){
+    cout << "\n\t¡La Lista esta vacia!" << '\n';
+    system("read -p '' var");
+  }else{
+    for(int i = 0; i<elementos-1; i++){
+        temp = temp->siguiente;
+  }
+  cout << "\n\t\t¡El Último Nodo contiene el Dato : " << temp->dato << "!" <<'\n';
+  system("read -p '' var");
+  }
+}
+
 void insertar_i(struct Nodo *&l, TIPO_DATO d){
   struct Nodo *aux = nullptr;
 
@@ -122,7 +173,7 @@ void insertar_i(struct Nodo *&l, TIPO_DATO d){
     }
   else
     {
-      cout<<"La lista esta llena..."<<'\n';
+      cout<<"\n\t¡La Lista esta Llena!"<<'\n';
     }
 }
 
@@ -134,21 +185,41 @@ void insertar_p(struct Nodo *&l, TIPO_DATO d, int pos,int elementos){
     if (pos > elementos or pos < 0){
       cout << "¡Posición inválida!";
     }else{
-      for(int i = 0; i<pos; i++){
-        temp = temp->siguiente;
-      }
+      for(int i = 0; i<pos-1; i++){
+        temp = temp->siguiente;  
+    }
     aux->dato = d;
     aux->siguiente = temp->siguiente;
     temp->siguiente = aux;
   }
 }
 
+void localiza(struct Nodo *&l, TIPO_DATO d, int elementos){
+
+    struct Nodo *temp = l;
+    bool finded = false;
+
+    for(int i = 0; i<elementos; i++){
+        if (temp->dato == d){
+            cout << "\n\t\tEl valor " << d << " se localiza en el Nodo [" << i << "]" << "\n";
+            finded = true;
+            system("read -p '' var");
+        }
+        temp = temp->siguiente;
+      }
+    if(finded == false){
+      cout<<"\n\t¡No existe ese dato en ningún Nodo!"<<'\n';
+      system("read -p '' var");
+    }
+  }
+
 void imprimir(struct Nodo *l)
-{
-  cout << "\tAncla-> ";
+{ 
+  cout << "\n\t\t\tOrden de la Lista" << "\n";
+  cout << "\t\tAncla -> ";
   while (l != nullptr)
     {
-      cout << l->dato << "-> ";
+      cout << l->dato << " -> ";
       l = l->siguiente;
     }
   cout << "NULL" << '\n' << '\n';
@@ -158,7 +229,8 @@ void anula (struct Nodo *&l)
 {
   if (vacia (l))
     {
-      cout << "¡La Lista esta vacia!" << '\n';
+      cout << "\n\t¡La Lista esta vacia!" << '\n';
+      system("read -p '' var");
     }
   else
     {
