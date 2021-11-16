@@ -21,8 +21,7 @@ class Lista
         void InsertarPosicion(int dato, int pos);
         int Recupera(int pos);
         int Localiza(int dato);
-        void Ordena();
-        void Mostrar();
+        void Imprimir();
         void Eliminar(int pos);
         void Anular();
         void Primero();
@@ -126,15 +125,12 @@ int Lista::Recupera(int pos)
 {
     nodo *aux;
     aux = h;
-    if(pos >= 0 && pos <= Tamano())
-    {
-        for(int i = 0; i<pos; i++)
+        for(int i = 0; i<=pos-1; i++)
         {
             aux = aux->sig;
         }
         cout << "\n\tEl dato "<< aux->dato <<" esta en la posición " << pos << '\n';
         system("read -p '' var");
-    }
     return -1;
 }
 
@@ -163,30 +159,7 @@ int Lista::Localiza(int dato)
     return -1;
 }
 
-void Lista::Ordena()
-{
-    nodo *aux, *aux2;
-    int temp;
-    aux = h;
-
-    while(aux->sig != nullptr)
-    {
-        aux2 = aux->sig;
-        while(aux2 != nullptr)
-        {
-            if(aux2->dato < aux->dato)
-            {
-                temp = aux->dato;
-                aux->dato = aux2->dato;
-                aux2->dato = temp;
-            }
-            aux2 = aux2->sig;
-        }
-        aux = aux->sig;
-    }
-}
-
-void Lista::Mostrar()
+void Lista::Imprimir()
 {
     nodo *aux;
     aux = h;
@@ -323,17 +296,17 @@ int main()
             l.Ultimo();
             break;
         case 7:
-            cout<<"\n\tInserte dato a localizar: "<<'\n';
+            cout<<"\n\tInserte dato a localizar: ";
             cin>>num;
             l.Localiza(num);
             break;
         case 8:
-            cout<<"\n\tInserte un index a recuperar: "<<'\n';
+            cout<<"\n\tInserte un index a recuperar: ";
             cin>>pos;
             l.Recupera(pos);
             break;
         case 9:
-            l.Mostrar();
+            l.Imprimir();
             break;
         case 0:
             break;
